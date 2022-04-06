@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable-v24/ic_about_us.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable-v24/ic_bookmarks.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable-v24/ic_home.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable-v24/ic_logout.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable/ic_menu.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable/rounded_corner_item_name.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable/rounded_corner_phrase_btn.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable/rounded_corner_picture.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/drawable/rounded_corner_search_en.xml" value="0.234" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/layout/activity_item_display.xml" value="0.335" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/layout/activity_item_list.xml" value="0.2552083333333333" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/layout/activity_main.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/layout/activity_upload.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/layout/fragment_about_us.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/layout/fragment_home.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/layout/main_nav_drawer.xml" value="0.2234375" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2 - db/GUItest2/app/src/main/res/layout/main_toolbar.xml" value="0.2234375" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/drawable-v24/ic_bookmarks.xml" value="0.26" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/drawable-v24/ic_home.xml" value="0.1" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/drawable/activity_upload.xml" value="0.2955" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/drawable/ic_menu.xml" value="0.26" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/drawable/rounded_corner_en.xml" value="0.26" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/drawable/rounded_corner_picture.xml" value="0.26" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/layout/activity_item_display.xml" value="0.375" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/layout/activity_item_list.xml" value="0.413265306122449" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/layout/activity_upload.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/layout/fragment_about_us.xml" value="0.1" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/layout/fragment_home.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/layout/main_nav_drawer.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/Hugo/AndroidStudioProjects/GUItest2/app/src/main/res/layout/main_toolbar.xml" value="0.3541666666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
