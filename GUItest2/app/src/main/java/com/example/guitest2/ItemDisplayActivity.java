@@ -104,8 +104,8 @@ public class ItemDisplayActivity extends AppCompatActivity {
                 // cancel process
                 BiometricPrompt biometricPrompt = new BiometricPrompt
                         .Builder(getApplicationContext())
-                        .setTitle("Title of Prompt")
-                        .setSubtitle("Subtitle")
+                        .setTitle("Fingerprint Authentication")
+                        .setSubtitle("Please unlock before buying the picture")
                         .setDescription("Uses FP")
                         .setNegativeButton("Cancel", getMainExecutor(), new DialogInterface.OnClickListener() {
                             @Override
