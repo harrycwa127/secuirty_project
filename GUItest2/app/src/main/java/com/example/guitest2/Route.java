@@ -53,18 +53,21 @@ public class Route {
         });
     }
 
-    public static void create_image(String[] data){
+    public static void create_image(ArrayList<> data){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("prize", 123);
-        map.put("title", "abc");
-        map.put("description", "des");
-
-//        FirebaseDatabase.getInstance().getReference().child("images").child("id").setValue(map);
-        FirebaseDatabase.getInstance().getReference().child("images").push().setValue(map);
+        map.put("prize", data.get(0));
+        map.put("title", data.get(1));
+        map.put("description", data.get(2));
 
         //upload image to server
-        StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + UUID.randomUUID().toString());
+        String image_name = UUID.randomUUID().toString();
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + image_name);
         ref.putFile(Uri.parse("filepath"));
+
+        map.put("image_name", image_name);
+
+        //        FirebaseDatabase.getInstance().getReference().child("images").child("id").setValue(map);
+        FirebaseDatabase.getInstance().getReference().child("images").push().setValue(map);
         // reference to add listener
 //        .addOnSuccessListener(
 //                new OnSuccessListener<UploadTask.TaskSnapshot>() {
