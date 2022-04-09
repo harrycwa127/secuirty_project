@@ -25,9 +25,9 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Route {
-    public static void get_image_detail(int id){
+    public static void get_image_detail(String id){
         //reference to get data
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("images");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("images").child(id);
         //arrayList for store data
 //        ArrayList<String> data = new ArrayList<>();
 
@@ -40,7 +40,45 @@ public class Route {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 data.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    data.put(snapshot.getKey().toString(), snapshot.getValue().toString());
+                    data.put(snapshot.getKey(), snapshot.getValue().toString());
+                }
+
+                //data got the chnaged data
+                //to-do load low resolution image
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                System.out.println(databaseError);
+            }
+        });
+    }
+
+    public static void get_image_all(){
+        //reference to get data
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("images");
+        //arrayList for store data
+//        ArrayList<String> data = new ArrayList<>();
+
+        //hashmap version for store data
+        HashMap<String, Object> data= new HashMap<>();
+
+        // event listener when data in database changed
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                data.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    // change reference to the record in Firebase
+                    ArrayList<String> list = new ArrayList<>();
+                    String key = snapshot.getKey();
+                    snapshot.child(key);
+
+                    //loop the value in the child and add to array
+                    for(DataSnapshot dsp : dataSnapshot.getChildren()){
+                        list.add(dsp.getValue(String.class));
+                    }
+                    data.put(key, list);
                 }
 
                 //data got the chnaged data
@@ -48,27 +86,28 @@ public class Route {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                System.out.println(databaseError);
             }
         });
     }
 
-    public static void create_image(ArrayList<> data){
+    public static int create_image(ArrayList<String> data){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("prize", data.get(0));
+        map.put("prize", Integer.parseInt(data.get(0)));
         map.put("title", data.get(1));
         map.put("description", data.get(2));
 
-        //upload image to server
+        //upload image name to firebase
         String image_name = UUID.randomUUID().toString();
         StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + image_name);
-        ref.putFile(Uri.parse("filepath"));
+        if(data.get(3) == null) return 1;   //1 represent something get error
 
         map.put("image_name", image_name);
 
-        //        FirebaseDatabase.getInstance().getReference().child("images").child("id").setValue(map);
-        FirebaseDatabase.getInstance().getReference().child("images").push().setValue(map);
-        // reference to add listener
+        FirebaseDatabase.getInstance().getReference().child("images").push().setValue(map);// reference to add listener
+
+        // upload image and notify success
+        ref.putFile(Uri.parse(data.get(3)));
 //        .addOnSuccessListener(
 //                new OnSuccessListener<UploadTask.TaskSnapshot>() {
 //
@@ -120,34 +159,31 @@ public class Route {
 //                                                + (int)progress + "%");
 //                            }
 //                        });
-
+        return 0;
     }
 
     public static void buy_image(String image) throws IOException {
         StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + image);
 
-        File localFile = File.createTempFile("images", "jpg");
+        File localFile = File.createTempFile(image, "jpg");
 
-        ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
-        });
+        ref.getFile(localFile);
+
+//        .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                // Local temp file has been created
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Handle any errors
+//            }
+//        });
     }
 
     // to-do, not necessary
     public static void create_user(){
-
-    }
-
-    // to-do, not necessary
-    public static void login(){
 
     }
 }
