@@ -1,6 +1,8 @@
 package com.example.guitest2;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -12,12 +14,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -103,11 +104,30 @@ public class Route {
         if(data.get(3) == null) return 1;   //1 represent something get error
 
         map.put("image_name", image_name);
+        ref.putFile(Uri.parse(data.get(3)));
+
+        // reduce resolution and upload to firebase sample
+//        Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), data.get(3));
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
+//        byte[] image_data = baos.toByteArray();
+//        //uploading the image
+//        UploadTask uploadTask2 = ref.putBytes(image_data);
+//        uploadTask2.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+////                Toast.makeText(Profilepic.this, "Upload successful", Toast.LENGTH_LONG).show();
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+////                Toast.makeText(Profilepic.this, "Upload Failed -> " + e, Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         FirebaseDatabase.getInstance().getReference().child("images").push().setValue(map);// reference to add listener
 
         // upload image and notify success
-        ref.putFile(Uri.parse(data.get(3)));
 //        .addOnSuccessListener(
 //                new OnSuccessListener<UploadTask.TaskSnapshot>() {
 //
