@@ -35,8 +35,8 @@ public class Route {
         //hashmap version for store data
         HashMap<String, String> data= new HashMap<>();
 
-        // event listener when data in database changed
-        ref.addValueEventListener(new ValueEventListener() {
+        // event listener for access data one time
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 data.clear();
