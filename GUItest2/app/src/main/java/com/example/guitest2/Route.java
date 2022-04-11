@@ -2,7 +2,9 @@ package com.example.guitest2;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -194,9 +197,23 @@ public class Route {
     public static void buy_image(String image) throws IOException {
         StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + image);
 
-        File localFile = File.createTempFile(image, "jpg");
+        //        File localFile = File.createTempFile(image, "jpg");
+        File storagePath = new File(Environment.getExternalStorageDirectory(), "ImageStorage");
+        // Create direcorty if not exists
+        if(!storagePath.exists()) {
+            storagePath.mkdirs();
+        }
 
-        ref.getFile(localFile);
+        final File localFile = new File(storagePath,image);
+
+        ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+            }
+        });
+
+
 
 //        .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
 //            @Override
