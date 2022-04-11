@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -53,6 +54,11 @@ public class Route {
                 System.out.println(databaseError);
             }
         });
+
+        //load low-resolution image as preview
+        StorageReference preview_ref = FirebaseStorage.getInstance().getReference().child("images/" + data.get("low_image"));
+        //wait for instance
+//        Glide.with(context).load(preview_ref).into(imageView);
     }
 
     public static void get_image_all(){
@@ -103,8 +109,11 @@ public class Route {
         StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + image_name);
         if(data.get(3) == null) return 1;   //1 represent something get error
 
-        map.put("image_name", image_name);
+        map.put("image", image_name);
         ref.putFile(Uri.parse(data.get(3)));
+
+        //to-do resize resolution of image
+        map.put("low_image", "");
 
         // reduce resolution and upload to firebase sample
 //        Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), data.get(3));
