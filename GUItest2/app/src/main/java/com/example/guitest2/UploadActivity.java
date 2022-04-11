@@ -78,12 +78,14 @@ public class UploadActivity extends AppCompatActivity {
                 priceEditText.setText("");
                 uploadButton.setText("Thanks for support!");
 
+                // upload the photo to backend
                 imageData.add(price);
                 imageData.add(name);
                 imageData.add(description);
+                imageData.add(selectedImageUri.toString());
+                Route.create_image(imageData);
 
-                // Back to main menu
-
+                uploadButton.setText(selectedImageUri.toString());
             }
         });
     }
