@@ -84,8 +84,7 @@ public class UploadActivity extends AppCompatActivity {
                 imageData.add(description);
                 imageData.add(selectedImageUri.toString());
                 Route.create_image(imageData);
-
-                uploadButton.setText(selectedImageUri.toString());
+                
             }
         });
     }
