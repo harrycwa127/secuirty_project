@@ -213,23 +213,31 @@ public class Route {
     }
 
     public static void buy_image(String image) throws IOException {
-        StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + image);
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/").child(image);
 
-        //        File localFile = File.createTempFile(image, "jpg");
-        File storagePath = new File(Environment.getExternalStorageDirectory(), "ImageStorage");
-        // Create direcorty if not exists
-        if(!storagePath.exists()) {
-            storagePath.mkdirs();
-        }
-
-        final File localFile = new File(storagePath,image);
-
-        ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+        ref.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                ImageView.setImageBitmap(bitmap);
             }
         });
+//
+//        //        File localFile = File.createTempFile(image, "jpg");
+//        File storagePath = new File(Environment.getExternalStorageDirectory(), "ImageStorage");
+//        // Create direcorty if not exists
+//        if(!storagePath.exists()) {
+//            storagePath.mkdirs();
+//        }
+//
+//        final File localFile = new File(storagePath,image);
+//
+//        ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+//            @Override
+//            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+//                // Local temp file has been created
+//            }
+//        });
 
 
 
