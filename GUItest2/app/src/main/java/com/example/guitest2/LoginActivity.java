@@ -57,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         Toast.makeText(LoginActivity.this, "login successfully", Toast.LENGTH_SHORT).show();
+                        //let password to empty if login success
+                        ETLoginPassword.setText("");
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     }else{
                         Toast.makeText(LoginActivity.this, "Wrong email or password", Toast.LENGTH_SHORT).show();
