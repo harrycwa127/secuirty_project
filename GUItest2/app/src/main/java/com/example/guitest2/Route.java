@@ -141,19 +141,39 @@ public class Route {
         });
     }
 
+    static DatabaseReference image_new_data_ref;
     public static int create_image(ArrayList<String> data){
+        image_new_data_ref = FirebaseDatabase.getInstance().getReference().child("images").push();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("price", Integer.parseInt(data.get(0)));
-        map.put("title", data.get(1));
-        map.put("description", data.get(2));
+//        map.put("price", Integer.parseInt(data.get(0)));
+//        map.put("title", data.get(1));
+//        map.put("description", data.get(2));
 
         //upload image name to firebase
         String image_name = UUID.randomUUID().toString();
         StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + image_name);
         if(data.get(3) == null) return 1;   //1 represent something get error
 
-        map.put("image", image_name);
-        ref.putFile(Uri.parse(data.get(3)));
+        ref.putFile(Uri.parse(data.get(3))).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        HashMap<String, Object> image_url = new HashMap<>();
+                        image_url.put("imageurl", String.valueOf(uri));
+                        image_url.put("price", Integer.parseInt(data.get(0)));
+                        image_url.put("title", data.get(1));
+                        image_url.put("description", data.get(2));
+
+                        image_new_data_ref.setValue(image_url);
+                    }
+                });
+            }
+        });
+
+        image_new_data_ref.setValue(map);// reference to add listener
+
 
         //to-do resize resolution of image
 //        map.put("low_image", "");
@@ -177,7 +197,6 @@ public class Route {
 //            }
 //        });
 
-        FirebaseDatabase.getInstance().getReference().child("images").push().setValue(map);// reference to add listener
 
         // upload image and notify success
 //        .addOnSuccessListener(

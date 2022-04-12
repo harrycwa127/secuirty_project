@@ -52,7 +52,7 @@ public class ItemDisplayActivity extends AppCompatActivity {
     private TextView nameTextView, descriptionTextView, priceTextView;
     private ImageView imageView;
     private Button buy;
-    private String imageID;
+    private String imageurl;
 
     //db variable
     private DBHelper dbHelper = new DBHelper(this);
@@ -91,13 +91,16 @@ public class ItemDisplayActivity extends AppCompatActivity {
                             nameTextView.setText(snapshot.child("title").getValue().toString());
                             descriptionTextView.setText(snapshot.child("description").getValue().toString());
 
-                            priceTextView.setText(snapshot.child("prize").getValue().toString());
-                            imageID = snapshot.child("image").getValue().toString();
-                            priceTextView.setText(imageID);
+                            priceTextView.setText(snapshot.child("price").getValue().toString());
+                            imageurl = snapshot.child("imageurl").getValue().toString();
+                            priceTextView.setText(snapshot.child("price").getValue().toString());
                         }
                         counter++;
                     }
+
+                    Glide.with(ItemDisplayActivity.this).load(imageurl).override(50, 20).centerCrop().into(imageView);
                 }
+
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -233,8 +236,8 @@ public class ItemDisplayActivity extends AppCompatActivity {
             }
         });
         builder.show();
-
-        imageView.setImageResource(getResources().getIdentifier(highResolutionFileName, "drawable", getPackageName()));
+        
+//        imageView.setImageResource(getResources().getIdentifier(highResolutionFileName, "drawable", getPackageName()));
         buy.setText("Thanks for support!");
     }
 }
