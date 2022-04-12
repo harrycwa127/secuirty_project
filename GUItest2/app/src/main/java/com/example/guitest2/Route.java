@@ -2,6 +2,7 @@ package com.example.guitest2;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -61,16 +62,24 @@ public class Route {
         });
 
         //load low-resolution image as preview
-        StorageReference preview_ref = FirebaseStorage.getInstance().getReference().child("images/").child(data.get("low_image"));
+        StorageReference preview_ref = FirebaseStorage.getInstance().getReference().child("images/").child(data.get("image"));
 //        Glide.with(context).load(preview_ref).into(imageView);
 
-        preview_ref.getBytes(512*512).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+        preview_ref.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-//                 ImageView.setImageBitmap(bitmap);
+                Matrix matrix = new Matrix();
+                // RESIZE THE BIT MAP
+                matrix.postScale(0.4f, 0.4f);
+
+                // "RECREATE" THE NEW BITMAP
+                Bitmap resizedBitmap = Bitmap.createBitmap(
+                        bitmap, 0, 0, (int)(bitmap.getWidth()*0.4), (int)(bitmap.getHeight()*0.4), matrix, false);
+                
+//                 ImageView.setImageBitmap(resizedBitmap);
             }
-        })
+        });
     }
 
     public static void get_image_all(){
@@ -125,7 +134,7 @@ public class Route {
         ref.putFile(Uri.parse(data.get(3)));
 
         //to-do resize resolution of image
-        map.put("low_image", "");
+//        map.put("low_image", "");
 
         // reduce resolution and upload to firebase sample
 //        Bitmap bmp = MediaStore.Images.Media.getBitmap(getContentResolver(), data.get(3));
