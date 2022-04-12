@@ -7,7 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.biometrics.BiometricPrompt;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
@@ -24,11 +27,22 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.module.AppGlideModule;
+import com.google.android.gms.auth.api.signin.internal.Storage;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.IOException;
+
 
 public class ItemDisplayActivity extends AppCompatActivity {
 
@@ -76,8 +90,10 @@ public class ItemDisplayActivity extends AppCompatActivity {
                         if (counter == id) {
                             nameTextView.setText(snapshot.child("title").getValue().toString());
                             descriptionTextView.setText(snapshot.child("description").getValue().toString());
+
                             priceTextView.setText(snapshot.child("prize").getValue().toString());
                             imageID = snapshot.child("image").getValue().toString();
+                            priceTextView.setText(imageID);
                         }
                         counter++;
                     }
@@ -89,8 +105,18 @@ public class ItemDisplayActivity extends AppCompatActivity {
                 }
             });
 
-            // Replace the image by the low resolution image.
 
+
+//            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + imageID + "");
+//            final Uri[] link = new Uri[1];
+//            storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                @Override
+//                public void onSuccess(Uri uri) {
+//                    link[0] = uri;
+//                }
+//            });
+//            priceTextView.setText(link.toString());
+//            GlideApp.with(this).load(link).into(imageView);
 
         }
 
