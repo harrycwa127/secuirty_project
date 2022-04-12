@@ -1,10 +1,12 @@
 package com.example.guitest2;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -59,9 +61,16 @@ public class Route {
         });
 
         //load low-resolution image as preview
-        StorageReference preview_ref = FirebaseStorage.getInstance().getReference().child("images/" + data.get("low_image"));
-        //wait for instance
+        StorageReference preview_ref = FirebaseStorage.getInstance().getReference().child("images/").child(data.get("low_image"));
 //        Glide.with(context).load(preview_ref).into(imageView);
+
+        preview_ref.getBytes(512*512).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//                 ImageView.setImageBitmap(bitmap);
+            }
+        })
     }
 
     public static void get_image_all(){
