@@ -143,7 +143,7 @@ public class Route {
 
     public static int create_image(ArrayList<String> data){
         HashMap<String, Object> map = new HashMap<>();
-        map.put("prize", Integer.parseInt(data.get(0)));
+        map.put("price", Integer.parseInt(data.get(0)));
         map.put("title", data.get(1));
         map.put("description", data.get(2));
 

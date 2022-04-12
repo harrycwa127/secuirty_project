@@ -33,10 +33,6 @@ public class MainActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         //for testing if no db created,create 2 record
         //if no record created
-        if(dbHelper.getCount() <= 0){
-            dbHelper.insertContact("Item 1", "this is item 1", "100", "item1_low", "item1_high");
-            dbHelper.insertContact("Item 2", "this is item 2", "200", "item1_low", "item1_high");
-        }
 
         navigationTV = findViewById(R.id.navigationTV);
         drawerLayout = findViewById(R.id.drawer_layout);
