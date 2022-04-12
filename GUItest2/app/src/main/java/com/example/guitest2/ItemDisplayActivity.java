@@ -98,7 +98,7 @@ public class ItemDisplayActivity extends AppCompatActivity {
                         counter++;
                     }
 
-                    Glide.with(ItemDisplayActivity.this).load(imageurl).override(50, 20).centerCrop().into(imageView);
+                    Glide.with(ItemDisplayActivity.this).load(imageurl).override(50, 20).fitCenter().into(imageView);
                 }
 
 
@@ -236,7 +236,9 @@ public class ItemDisplayActivity extends AppCompatActivity {
             }
         });
         builder.show();
-        
+
+        Glide.with(ItemDisplayActivity.this).load(imageurl).into(imageView);
+
 //        imageView.setImageResource(getResources().getIdentifier(highResolutionFileName, "drawable", getPackageName()));
         buy.setText("Thanks for support!");
     }
