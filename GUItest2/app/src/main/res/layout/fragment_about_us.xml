@@ -39,7 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="146dp"
             android:gravity="center_horizontal"
-            android:text="TSANG Chun Hei\nNG Tsz Fung\nLEUNG Chun Choi\nCHAN Kian\nWONG Chung Wong(21018027D)"
+            android:text="Tsang Chun Hei 21032048D \nChan Kian 21069256D \nNg Tsz Fung 21032529D\nWong Chung Wing 21018027D \nLeung Chun Choi 21019855D"
             android:textAlignment="center"
             android:textColor="#5C48CA"
             android:textSize="20sp" />
