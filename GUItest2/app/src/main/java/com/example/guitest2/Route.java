@@ -33,6 +33,28 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class Route {
+    static Bitmap low_image;
+    public static Bitmap get_low_resolution_image(String image){
+        StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/").child(image);
+
+        ref.getBytes(1024*1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                Matrix matrix = new Matrix();
+                // RESIZE THE BIT MAP
+                matrix.postScale(0.4f, 0.4f);
+
+                // "RECREATE" THE NEW BITMAP
+                low_image = Bitmap.createBitmap(
+                        bitmap, 0, 0, (int)(bitmap.getWidth()*0.4), (int)(bitmap.getHeight()*0.4), matrix, false);
+//                 ImageView.setImageBitmap(resizedBitmap);
+            }
+        });
+        return low_image;
+    }
+
+
     public static void get_image_detail(String id){
         //reference to get data
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("images").child(id);
@@ -219,7 +241,7 @@ public class Route {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                ImageView.setImageBitmap(bitmap);
+//                ImageView.setImageBitmap(bitmap);
             }
         });
 //
