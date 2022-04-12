@@ -21,15 +21,10 @@
         android:typeface="sans" />
 
     <ListView
-        android:id="@+id/content_list"
+        android:id="@+id/productList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@color/cardview_light_background"
-        android:divider="@color/colorAccent"
-        android:dividerHeight="4dp" />
-
-
+        android:layout_height="match_parent"
+        android:background="#FFFFFF" />
 
 
 </LinearLayout>

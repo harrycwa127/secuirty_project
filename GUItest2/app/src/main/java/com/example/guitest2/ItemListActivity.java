@@ -1,5 +1,6 @@
 package com.example.guitest2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -21,15 +22,18 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 public class ItemListActivity extends AppCompatActivity {
 
-    private String[] temp;
     private TextView title;
-
-    //db variable
-    private DBHelper dbHelper;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,35 +42,38 @@ public class ItemListActivity extends AppCompatActivity {
 
         title = findViewById(R.id.item_title);
         title.setText("Item list");
+        listView = findViewById(R.id.productList);
 
-        //db version
-        ListView listView = findViewById(R.id.content_list);
-        //create db
-        dbHelper = new DBHelper(this);
+        ArrayList<String> list = new ArrayList<>();
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            //get record
-            int count = dbHelper.getCount();
-            temp = new String[count];
-            for (int i = 0; i < count; i++) {
-                Cursor c = dbHelper.getData((i+1));
-                c.moveToFirst();
-                temp[i] = c.getString(1);
+        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
+        listView.setAdapter(adapter);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("images");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                list.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    list.add(snapshot.child("title").getValue().toString());
+                }
+                adapter.notifyDataSetChanged();
             }
 
-            //put record to item list
-            final ArrayAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, temp);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), ItemDisplayActivity.class);
-                intent.putExtra("id",String.valueOf((position+1)));
+                intent.putExtra("id",String.valueOf(i));
                 startActivity(intent);
-                }
-            });
-        }
+            }
+
+        });
     }
 }
 

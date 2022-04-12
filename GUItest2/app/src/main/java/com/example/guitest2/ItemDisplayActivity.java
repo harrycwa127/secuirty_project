@@ -17,19 +17,28 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ItemDisplayActivity extends AppCompatActivity {
 
     private String lowResolutionFileName, highResolutionFileName;
     private int id;
     private String[] temp;
-    private TextView nameTextView, descriptionTextView , priceTextView;
+    private TextView nameTextView, descriptionTextView, priceTextView;
     private ImageView imageView;
     private Button buy;
+    private String imageID;
 
     //db variable
     private DBHelper dbHelper = new DBHelper(this);
@@ -49,7 +58,7 @@ public class ItemDisplayActivity extends AppCompatActivity {
         setContentView(R.layout.activity_item_display);
 
         nameTextView = findViewById(R.id.itemNameTextView);
-        descriptionTextView  = findViewById(R.id.descriptionTextView );
+        descriptionTextView = findViewById(R.id.descriptionTextView);
         priceTextView = findViewById(R.id.priceTextView);
         imageView = findViewById(R.id.imageView);
         buy = findViewById(R.id.buyButton);
@@ -57,24 +66,41 @@ public class ItemDisplayActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             id = Integer.valueOf(intent.getStringExtra("id"));
-            Cursor c = dbHelper.getData(id);
-            c.moveToFirst();
 
-            nameTextView.setText(c.getString(1));
-            descriptionTextView .setText("Description: " + c.getString(2));
-            priceTextView.setText("Price: " + c.getString(3));
-            lowResolutionFileName = c.getString(4);
-            highResolutionFileName = c.getString(5);
-            imageView.setImageResource(getResources().getIdentifier(lowResolutionFileName, "drawable", getPackageName()));
+            DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("images");
+            reference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int counter = 0;
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        if (counter == id) {
+                            nameTextView.setText(snapshot.child("title").getValue().toString());
+                            descriptionTextView.setText(snapshot.child("description").getValue().toString());
+                            priceTextView.setText(snapshot.child("prize").getValue().toString());
+                            imageID = snapshot.child("image").getValue().toString();
+                        }
+                        counter++;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            // Replace the image by the low resolution image.
+
+
         }
 
         //authenticationCallback
-        authenticationCallback = new BiometricPrompt.AuthenticationCallback(){
+        authenticationCallback = new BiometricPrompt.AuthenticationCallback() {
             // here we need to implement two methods
             // onAuthenticationError and onAuthenticationSucceeded If the
             // fingerprint is not recognized by the  app it will call onAuthenticationError
             @Override
-            public void onAuthenticationError(int errorCode, CharSequence errString){
+            public void onAuthenticationError(int errorCode, CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     KeyguardManager km = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
@@ -89,7 +115,7 @@ public class ItemDisplayActivity extends AppCompatActivity {
 
             // If the fingerprint is recognized by the app
             @Override
-            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result){
+            public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 buySeccess();
             }
@@ -99,8 +125,7 @@ public class ItemDisplayActivity extends AppCompatActivity {
         buy.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.P)
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 // cancel process
                 BiometricPrompt biometricPrompt = new BiometricPrompt
                         .Builder(getApplicationContext())
@@ -110,54 +135,52 @@ public class ItemDisplayActivity extends AppCompatActivity {
                         .setNegativeButton("Cancel", getMainExecutor(), new DialogInterface.OnClickListener() {
                             @Override
                             public void
-                            onClick(DialogInterface dialogInterface, int i)
-                            {
+                            onClick(DialogInterface dialogInterface, int i) {
                                 notifyUser("Authentication Cancelled");
                             }
                         }).build();
 
                 // start the authenticationCallback in
                 // mainExecutor
-                biometricPrompt.authenticate(getCancellationSignal(),getMainExecutor(),authenticationCallback);
+                biometricPrompt.authenticate(getCancellationSignal(), getMainExecutor(), authenticationCallback);
             }
         });
     }
+
     // when authentication is cancelled
-    private CancellationSignal getCancellationSignal()
-    {
+    private CancellationSignal getCancellationSignal() {
         cancellationSignal = new CancellationSignal();
         cancellationSignal.setOnCancelListener(
-        new CancellationSignal.OnCancelListener(){
-            @Override public void onCancel(){
-                notifyUser("Authentication was Cancelled by the user");
-            }
-        });
+                new CancellationSignal.OnCancelListener() {
+                    @Override
+                    public void onCancel() {
+                        notifyUser("Authentication was Cancelled by the user");
+                    }
+                });
         return cancellationSignal;
     }
 
     // it checks whether has fingerprint permission
     @RequiresApi(Build.VERSION_CODES.M)
-    private Boolean checkBiometricSupport()
-    {
-        KeyguardManager keyguardManager = (KeyguardManager)getSystemService(Context.KEYGUARD_SERVICE);
+    private Boolean checkBiometricSupport() {
+        KeyguardManager keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         if (!keyguardManager.isDeviceSecure()) {
             notifyUser("Fingerprint authentication has not been enabled in settings");
             return false;
         }
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.USE_BIOMETRIC)!= PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.USE_BIOMETRIC) != PackageManager.PERMISSION_GRANTED) {
             notifyUser("Fingerprint Authentication Permission is not enabled");
             return false;
         }
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_FINGERPRINT)) {
             return true;
-        }
-        else{
+        } else {
             return true;
         }
     }
 
     //toast
-    private void notifyUser(String message){
+    private void notifyUser(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
@@ -173,7 +196,7 @@ public class ItemDisplayActivity extends AppCompatActivity {
     }
 
     //if user buy the picture
-    protected void buySeccess(){
+    protected void buySeccess() {
         AlertDialog.Builder builder = new AlertDialog.Builder(ItemDisplayActivity.this);
         builder.setTitle("Thanks for support");
         builder.setMessage("You have bought the HD version!");
@@ -184,6 +207,7 @@ public class ItemDisplayActivity extends AppCompatActivity {
             }
         });
         builder.show();
+
         imageView.setImageResource(getResources().getIdentifier(highResolutionFileName, "drawable", getPackageName()));
         buy.setText("Thanks for support!");
     }
