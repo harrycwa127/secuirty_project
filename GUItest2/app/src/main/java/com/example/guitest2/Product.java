@@ -1,4 +1,4 @@
-package com.example.G32;
+package com.example.guitest2;
 
 public class Product {
     String description;
