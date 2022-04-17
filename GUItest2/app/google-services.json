@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:357565928111:android:6dc4183e03df267f267a5a",
+        "mobilesdk_app_id": "1:357565928111:android:1b9578cc0e37910b267a5a",
         "android_client_info": {
-          "package_name": "com.example.css_gp"
+          "package_name": "com.example.G32"
         }
       },
       "oauth_client": [
