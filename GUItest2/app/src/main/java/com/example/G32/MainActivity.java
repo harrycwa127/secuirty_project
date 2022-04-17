@@ -1,4 +1,4 @@
-package com.example.guitest2;
+package com.example.G32;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;

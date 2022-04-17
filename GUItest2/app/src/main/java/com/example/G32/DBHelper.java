@@ -1,8 +1,5 @@
-package com.example.guitest2;
+package com.example.G32;
 
-import java.util.ArrayList;
-
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
