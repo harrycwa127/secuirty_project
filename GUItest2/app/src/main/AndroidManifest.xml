@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.guitest2">
+    package="com.example.G32">
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
@@ -15,33 +15,33 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".LoginActivity"
+            android:name="com.example.G32.LoginActivity"
             android:exported="false"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.example.G32.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeActionBar" >
         </activity>
         <activity
-            android:name=".ItemListActivity"
+            android:name="com.example.G32.ItemListActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.example.G32.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeActionBar" />
         <activity
-            android:name=".ItemDisplayActivity"
+            android:name="com.example.G32.ItemDisplayActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.example.G32.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeActionBar" />
         <activity
-            android:name=".UploadActivity"
+            android:name="com.example.G32.UploadActivity"
             android:launchMode="singleTask"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.example.G32.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeActionBar" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.G32.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

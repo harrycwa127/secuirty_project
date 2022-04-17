@@ -1,4 +1,4 @@
-package com.example.guitest2;
+package com.example.G32;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
